@@ -1,0 +1,357 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    /* Styling for the new radio dashboard */
+    .radio-dashboard {
+        display: flex;
+        /* Enables flexbox layout */
+        justify-content: space-between;
+        /* Pushes content to the far left and right */
+        align-items: center;
+        /* Vertically centers items */
+        padding: 15px 20px;
+        /* Some padding around the content */
+        margin-bottom: 20px;
+        /* Space below the dashboard */
+        background-color: #f8f8f8;
+        /* Light background for visibility */
+        border: 1px solid #ddd;
+        /* Subtle border */
+        border-radius: 5px;
+        /* Rounded corners */
+    }
+
+    .radio-dashboard h2 {
+        margin: 0;
+        /* Remove default margin from the heading */
+        color: #333;
+        font-size: 1.8em;
+    }
+
+    .radio-stats {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        /* Space between the 'Number of songs' text and the calendar */
+    }
+
+    .radio-stats p {
+        margin: 0;
+        font-weight: bold;
+        color: #555;
+    }
+
+    /* Basic styling for the date input to look clean */
+    .radio-stats input[type="date"] {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1em;
+        cursor: pointer;
+    }
+
+    .radio-dashboard {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+        margin-bottom: 20px;
+        background-color: #f8f8f8;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .radio-dashboard h2 {
+        margin: 0;
+        color: #333;
+        font-size: 1.8em;
+    }
+
+    .radio-stats {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .radio-stats p {
+        margin: 0;
+        font-weight: bold;
+        color: #555;
+    }
+
+    .radio-stats input[type="date"] {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1em;
+        cursor: pointer;
+    }
+
+    /* ======================================
+    NEW Facebook-like Card/Theme Styles
+    ======================================
+    */
+    .radio-cards-container {
+        display: grid;
+        /* Use CSS Grid for a responsive, clean layout */
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        /* Cards will be at least 200px wide */
+        gap: 20px;
+        /* Space between the cards */
+        padding: 20px 0;
+        /* Padding above/below the grid */
+    }
+
+    .radio-card {
+        background-color: #fff;
+        /* White background, like a Facebook post/profile card */
+        border-radius: 8px;
+        /* Rounded corners */
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+        /* Subtle shadow for depth (FB-like) */
+        overflow: hidden;
+        /* Ensures image corners are rounded */
+        text-align: center;
+        /* Center text and image */
+        transition: transform 0.2s;
+        /* Smooth hover effect */
+        padding: 15px;
+        /* Added internal padding */
+    }
+
+    .radio-card:hover {
+        transform: translateY(-3px);
+        /* Slight lift on hover */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15), 0 3px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .radio-card-icon {
+        width: 100px;
+        /* Fixed size for the icon thumbnail */
+        height: 100px;
+        object-fit: contain;
+        /* Ensures the icon fits without cropping */
+        border-radius: 50%;
+        /* Makes the icon circular */
+        border: 3px solid #1877f2;
+        /* A blue border (like Facebook blue) */
+        margin-bottom: 10px;
+    }
+
+    .radio-card h3 {
+        font-size: 1.2em;
+        margin: 5px 0 0;
+        color: #050505;
+        /* Dark text */
+    }
+
+    .radio-card p {
+        font-size: 0.9em;
+        color: #606770;
+        /* Muted text */
+        margin: 0;
+    }
+
+    /* Container for the entire picker system */
+    .date-picker-container {
+        max-width: 400px;
+        /* Limit width for cleaner look */
+        margin: 20px 0;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        background-color: #f7f7f7;
+        font-family: Arial, sans-serif;
+    }
+
+    /* Selector buttons (Date, Week, Month) */
+    .view-selector {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+    }
+
+    .view-selector button {
+        flex-grow: 1;
+        /* Make buttons fill the space */
+        padding: 8px 12px;
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+        font-size: 1em;
+        font-weight: bold;
+        color: #606770;
+        /* Muted text color */
+        border-radius: 4px;
+        transition: background-color 0.2s, color 0.2s;
+    }
+
+    /* Active/Selected button style */
+    .view-selector button.active {
+        background-color: #1877f2;
+        /* Facebook Blue */
+        color: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .view-selector button:hover:not(.active) {
+        background-color: #e4e6eb;
+        /* Light grey hover */
+    }
+
+    /* Input View Container */
+    .input-views {
+        position: relative;
+        min-height: 40px;
+        /* Ensure container has height even when inputs are hidden */
+    }
+
+    /* Styling for the actual HTML input fields (date, week, month) */
+    .picker-input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1em;
+        box-sizing: border-box;
+        /* Include padding and border in the element's total width and height */
+        position: absolute;
+        /* Stack inputs */
+        top: 0;
+        left: 0;
+    }
+
+    /* Hide the non-active input fields */
+    .hidden {
+        display: none !important;
+    }
+
+    /* Ensure the active input is always visible (and overrides 'hidden') */
+    .picker-input.active {
+        display: block;
+    }
+</style>
+
+<div class="radio-dashboard">
+    <h2>📻 Radios</h2>
+
+    <div class="radio-stats">
+        <p>Number of stations: **{{ all_radios|length }}**</p>
+
+        <div class="date-picker-container">
+            <div class="view-selector">
+                <button id="view-date" class="active">Date</button>
+                <button id="view-week">Week</button>
+                <button id="view-month">Month</button>
+            </div>
+
+            <div class="input-views">
+                <input type="date" id="calendar-select-date" name="calendar-select" class="picker-input active">
+
+                <input type="week" id="calendar-select-week" name="calendar-select-week" class="picker-input hidden">
+
+                <input type="month" id="calendar-select-month" name="calendar-select-month" class="picker-input hidden">
+            </div>
+        </div>
+
+        <script>
+            // This simple JavaScript is essential to toggle visibility.
+            document.querySelectorAll('.view-selector button').forEach(button => {
+                button.addEventListener('click', function () {
+                    // 1. Update button active state
+                    document.querySelector('.view-selector .active').classList.remove('active');
+                    this.classList.add('active');
+
+                    // 2. Determine which input to show
+                    const targetId = this.id.replace('view-', 'calendar-select-');
+
+                    // 3. Hide all inputs and show the target one
+                    document.querySelectorAll('.picker-input').forEach(input => {
+                        input.classList.add('hidden');
+                    });
+                    document.getElementById(targetId).classList.remove('hidden');
+                });
+            });
+        </script>
+    </div>
+</div>
+
+<div class="radio-cards-container">
+    <audio id="radio-player" controls style="display:none;"></audio>
+
+    {% for radio in all_radios %}
+    <div class="radio-card">
+        <img src="{{ url_for('static', filename=radio.icon_path) }}" alt="{{ radio.radio_name }} Icon"
+            class="radio-card-icon">
+
+        <h3>{{ radio.radio_name }}</h3>
+
+        <p>Region: **{{ radio.region_name }}**</p>
+
+        <button class="play-radio-btn" data-stream-url="{{ radio.stream_link }}"
+            data-radio-name="{{ radio.radio_name }}">
+            ▶ Play Stream
+        </button>
+    </div>
+    {% else %}
+    <p>No radio stations have been added yet.</p>
+    {% endfor %}
+</div>
+
+<script>
+    const audioPlayer = document.getElementById('radio-player');
+    let currentButton = null;
+
+    document.querySelectorAll('.play-radio-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const streamUrl = this.getAttribute('data-stream-url');
+            const radioName = this.getAttribute('data-radio-name');
+
+            // 1. Check if the current radio is already playing
+            if (audioPlayer.src === streamUrl && !audioPlayer.paused) {
+                // Pause the stream
+                audioPlayer.pause();
+                this.textContent = '▶ Play Stream';
+                currentButton = null;
+            } else {
+                // 2. Stop any currently playing stream and reset its button text
+                if (currentButton) {
+                    currentButton.textContent = '▶ Play Stream';
+                }
+
+                // 3. Start playing the new radio stream
+                audioPlayer.src = streamUrl;
+                audioPlayer.play()
+                    .then(() => {
+                        this.textContent = '⏸ Pause Stream';
+                        currentButton = this;
+                        // You can display a message to the user here (e.g., in a status bar)
+                        console.log(`Now playing: ${radioName}`);
+                    })
+                    .catch(e => {
+                        console.error(`Error playing stream for ${radioName}:`, e);
+                        alert(`Could not play stream for ${radioName}. Check the stream link.`);
+                        this.textContent = '▶ Play Stream';
+                    });
+            }
+        });
+    });
+
+    // Handle button text when playback is externally stopped/errors
+    audioPlayer.addEventListener('pause', () => {
+        if (currentButton) {
+            currentButton.textContent = '▶ Play Stream';
+        }
+    });
+
+    audioPlayer.addEventListener('error', (e) => {
+        console.error("Audio playback error:", e);
+        if (currentButton) {
+            currentButton.textContent = '▶ Play Stream';
+        }
+    });
+</script>
+{% endblock %}

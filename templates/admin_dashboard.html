@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+<div class="alert alert-{{ category }}">
+    {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<input type="checkbox" id="radio-toggle" class="radio-toggle-checkbox" role="button" aria-expanded="false">
+
+<label for="radio-toggle" id="toggle-header" class="radio-toggle-label">
+    <h2>Add New Radio Station (Click to Toggle)</h2>
+</label>
+
+<div id="form-container" class="toggleable-content">
+    <form action="{{ url_for('admin_add_radio') }}" method="POST" enctype="multipart/form-data" class="facebook-form">
+        <label for="radio_name">Radio Name:</label>
+        <input type="text" id="radio_name" name="radio_name" required>
+
+        <label for="stream_link">Stream Link (URL):</label>
+        <input type="url" id="stream_link" name="stream_link" required>
+
+        <label for="country_name">Country Name:</label>
+        <input type="text" id="country_name" name="country_name" required>
+
+        <label for="region_name">Region Name (Optional):</label>
+        <input type="text" id="region_name" name="region_name">
+
+        <label for="radio_icon">Radio Icon (PNG or JPG):</label>
+        <input type="file" id="radio_icon" name="radio_icon" accept="image/*" required>
+
+        <button type="submit">Add Radio</button>
+    </form>
+</div>
+
+{% endblock %}

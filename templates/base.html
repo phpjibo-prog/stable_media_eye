@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Daily Eye - {{ title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <header class="site-header">
+        <!-- Text on the LEFT -->
+        <div class="logo">
+            Media Daily Eye
+        </div>
+
+        <!-- CSS Checkbox Hack for Mobile Menu Toggle -->
+        <input type="checkbox" id="menu-toggle" class="menu-toggle">
+        <label for="menu-toggle" class="hamburger" aria-label="Toggle navigation">&#9776;</label>
+
+        <!-- Menu on the RIGHT -->
+        <nav class="main-nav">
+            <ul>
+                <li><a href="{{ url_for('home') }}">Homepage</a></li>
+                <li><a href="{{ url_for('about') }}">About page</a></li>
+                <li><a href="{{ url_for('contact') }}">Contact page</a></li>
+                {% if session.get('user_data', {}).get('is_admin') %}
+                <li><a href="{{ url_for('admin_dashboard') }}">Admin Dashboard</a></li>
+                {% endif %}
+                {% if logged_in %}
+                <li><a href="{{ url_for('account') }}">Account page</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                {% else %}
+                <!-- Dropdown Trigger Link -->
+                <li class="dropdown">
+                    <a href="#">Register or Login &#9662;</a>
+
+                    <!-- Dropdown Content -->
+                    <div class="dropdown-content">
+                        <a href="{{ url_for('login_simulation') }}?provider=google">Login with Google</a>
+                        <a href="{{ url_for('login_simulation') }}?provider=facebook">Login with Facebook</a>
+                        <a href="{{ url_for('login_simulation') }}?provider=instagram">Login with Instagram</a>
+                    </div>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Display Flash Messages (including the 'error' message from app.py) -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <!-- The category 'error' is passed from app.py, coloring the message red via CSS -->
+    <div class="alert alert-{{ category }}">
+        {{ message }}
+        {% if category == 'error' %}
+        <p>You can login with:</p>
+        <!-- Links to trigger the simulated logins -->
+        <a href="{{ url_for('login_simulation') }}?provider=google" class="social-login">Google</a> |
+        <a href="{{ url_for('login_simulation') }}?provider=facebook" class="social-login">Facebook</a> |
+        <a href="{{ url_for('login_simulation') }}?provider=instagram" class="social-login">Instagram</a>
+        {% endif %}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <!-- ... rest of the HTML structure for the <details> form ... -->
+    <div class="upload-container-wrapper">
+        <details class="upload-dropdown-class" {% if logged_in %}open{% endif %}>
+            <summary>Add MP3 to Track</summary>
+
+            <div class="dropdown-form-content">
+                {% if logged_in %}
+                <!-- The actual form only shows if logged in -->
+                <form action="/upload-mp3" method="POST" enctype="multipart/form-data" class="center-form">
+                    <label for="track_name">Track Name:</label>
+                    <input type="text" id="track_name" name="track_name" required>
+                    <label for="mp3_file">Upload MP3 File:</label>
+                    <input type="file" id="mp3_file" name="mp3_file" accept=".mp3" required>
+                    <button type="submit">Upload Track</button>
+                </form>
+                {% else %}
+                <!-- This static message is displayed if the 'flash' message above is missed -->
+                <p style="color:red; text-align: center;">Login first to use the upload form.</p>
+                {% endif %}
+            </div>
+        </details>
+    </div>
+
+    <main class="content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Media Daily Eye</p>
+    </footer>
+
+</body>
+
+</html>

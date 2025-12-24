@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="username">
+    <h1>Account Page</h1>
+    <p>Welcome back, {{ user.username }}!</p>
+    <p>Your details:</p>
+    <ul>
+        <li>Username: {{ user.username }}</li>
+        <li>Email: {{ user.email }}</li>
+        <li>Logged in via: {{ user.social_provider }}</li>
+    </ul>
+</div>
+<hr>
+
+<h2>Follow a New Song</h2>
+<form action="{{ url_for('follow_song') }}" method="POST">
+    <label for="song_id">Song ID to Follow:</label>
+    <input type="number" id="song_id" name="song_id" required min="1" placeholder="e.g., 42">
+
+    <label for="custom_name">Custom Song Name (Optional):</label>
+    <input type="text" id="custom_name" name="custom_name" placeholder="e.g., My Favorite Jam">
+
+    <button type="submit">Follow Song</button>
+</form>
+
+<hr>
+
+<div class="user_follows">
+    <h3>Songs I Follow</h3>
+    <ul>
+        {% for song in following_songs %}
+        <li>
+            <strong>{{ song.name }}</strong>
+            {% if song.name != song.original_name %}
+            (Original: {{ song.original_name }})
+            {% endif %}
+            <small>(ID: {{ song.song_id }})</small>
+        </li>
+        {% else %}
+        <li>You are not following any songs yet.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<hr>
+
+<div class="following">
+    <h3>Your Followed Songs</h3>
+
+    {% if following_songs %}
+    <ul>
+        {% for song in following_songs %}
+        <li>
+            <strong>{{ song.name }}</strong>
+            <br>
+            <small>Original: {{ song.original_name }}</small>
+            <br>
+            <small>ID: {{ song.song_id }}</small>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>You are not following any songs yet.</p>
+    {% endif %}
+</div>
+
+<hr>
+
+<div class="online_users">
+    <h3>Who is Online?</h3>
+    <ul>
+        {% for user in online_users %}
+        <li>🟢 {{ user }}</li>
+        {% else %}
+        <li>No other users are currently marked as online.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

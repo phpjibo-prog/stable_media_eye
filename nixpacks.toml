@@ -1,0 +1,6 @@
+[phases.setup]
+apt-packages = [
+  "portaudio19-dev",
+  "libasound-dev",
+  "ffmpeg"  # Since this was detected as needed
+]

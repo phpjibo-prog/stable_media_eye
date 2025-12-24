@@ -1,0 +1,535 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+}
+
+.site-header {
+    /* Use a darker blue/gray for a professional social look */
+    background: #3b5998;
+    /* Classic Facebook Blue */
+    /* Or a more modern dark gray: #333 */
+    color: #fff;
+    /* Increase vertical padding for a more substantial header */
+    padding: 8px 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    /* Add a subtle shadow for depth */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    /* Logo remains naturally on the left */
+    order: 1;
+    font-size: 1.75rem;
+    /* Slightly larger logo */
+    font-weight: bold;
+    padding: 0;
+    /* Remove padding to be controlled by header padding */
+    margin-right: 20px;
+    /* Space between logo and hamburger on mobile */
+}
+
+/* --- Desktop Nav Styles --- */
+.main-nav {
+    /* Pushes this element (and its children) to the far right by taking up all available space to its left */
+    margin-left: auto;
+    order: 2;
+}
+
+.main-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    /* Links are already aligned right due to margin-left: auto on parent nav */
+}
+
+.main-nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 15px 12px;
+    /* Uniform padding for a taller, cleaner link area */
+    display: block;
+    /* Make the text slightly smaller for a clean look */
+    font-size: 0.95rem;
+    /* Use a transition for smooth color change */
+    transition: background-color 0.3s ease;
+    /* Ensure the link area looks clickable */
+    cursor: pointer;
+}
+
+.main-nav ul li a:hover {
+    background: #4e69a2;
+    /* Slightly lighter blue on hover */
+    /* Add a border/underline effect for a modern touch */
+    border-bottom: 3px solid #f7f7f7;
+    padding-bottom: 12px;
+    /* Adjust padding to keep the header height consistent */
+}
+
+/* Container to center the entire dropdown on the page (optional) */
+.upload-container-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    /* Reduced spacing */
+    margin-bottom: 20px;
+    /* Add space below the wrapper */
+}
+
+/* Make the active link look slightly different or just use the hover style for simplicity */
+.main-nav ul li a.active {
+    border-bottom: 3px solid #f7f7f7;
+    padding-bottom: 12px;
+}
+
+/* Main class for the dropdown container */
+.upload-dropdown-class {
+    border: 1px solid #ddd;
+    padding: 15px;
+    /* Slightly more padding */
+    width: 320px;
+    /* Slightly wider to look better */
+    background-color: #ffffff;
+    /* Use white background */
+    cursor: pointer;
+    border-radius: 12px;
+    /* **Increased radius for soft corners** */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    /* Subtle shadow for depth */
+    transition: box-shadow 0.3s ease;
+}
+
+/* Style for the 'Add MP3 to Track' label */
+.upload-dropdown-class summary {
+    font-weight: 600;
+    /* Slightly bolder */
+    color: #1c2b5d;
+    /* Dark blue text matching the theme */
+    padding: 5px 0;
+    list-style: none;
+    /* Removed default triangle marker for a cleaner look */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.upload-dropdown-class:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.upload-dropdown-class summary::before {
+    /* Re-add a custom toggle icon */
+    content: '💿';
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+/* Style for the hidden content wrapper */
+.dropdown-form-content {
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+    margin-top: 10px;
+}
+
+/* Style to center the form elements */
+.center-form {
+    display: flex;
+    flex-direction: column;
+    /* Stacks elements vertically */
+    align-items: center;
+    /* Centers items horizontally within the form's width */
+    text-align: center;
+    gap: 12px;
+    /* Space between form elements */
+}
+
+.center-form input[type="file"] {
+    line-height: 1.4;
+    height: auto;
+}
+
+.center-form input[type="text"] {
+    background-color: #f0f2f5;
+    color: rgb(0, 0, 0);
+    border: #1c2b5d;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.center-form input[type="file"] {
+    background-color: #3b5998;
+    color: white;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.center-form button {
+    /* Use the primary Facebook blue */
+    background-color: #8246a4;
+    color: white;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 6px;
+
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.center-form button:hover {
+    background-color: #4e69a2;
+    /* Slightly lighter blue on hover */
+}
+
+.center-form button:active {
+    background-color: #2b457a;
+    /* Darker blue when clicked */
+    transform: translateY(1px);
+}
+
+.center-form input:focus {
+    border-color: #3b5998;
+    /* Blue focus border */
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(59, 89, 152, 0.2);
+}
+
+.center-form label {
+    margin-top: 5px;
+    width: 100%;
+    text-align: left;
+    /* Aligns label text to the left above the input */
+    padding-left: 5%;
+    /* Align with input start */
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* Add to existing CSS file */
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    text-align: center;
+}
+
+/* This is the key styling for the 'error' category */
+.alert-error {
+    color: #a94442;
+    /* Dark red text color */
+    background-color: #f2dede;
+    /* Light red background */
+    border-color: #ebccd1;
+}
+
+.center-form {
+    display: flex;
+    flex-direction: column;
+    /* Stacks elements vertically */
+    /* ... (rest of center-form styles) ... */
+}
+
+/* Ensure these are present from earlier steps */
+.alert-error {
+    /* ... styles for red messages ... */
+}
+
+.alert-success {
+    /* ... styles for green success messages ... */
+}
+
+/* --- Content Centering --- */
+.content {
+    padding: 20px;
+    min-height: 70vh;
+    /* Centers the main content by limiting width and using auto margins */
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background: #333;
+    color: #fff;
+}
+
+/* (Include the previous Dropdown specific styles here) */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 180px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    right: 0;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover a:first-child {
+    background-color: #555;
+}
+
+
+/* --- Mobile Menu Specific Styles (New/Modified) --- */
+
+/* Hide the checkbox input visually */
+.menu-toggle {
+    display: none;
+}
+
+/* Hide the hamburger icon on desktop */
+.hamburger {
+    display: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    /* Pushed to the right automatically on desktop, but hidden */
+}
+
+.radio-toggle-checkbox {
+    display: none;
+}
+
+/* 2. Style the clickable header (Label) */
+.radio-toggle-label {
+    display: block;
+    background-color: #f0f2f5;
+    /* Facebook-like light background */
+    color: #1877f2;
+    /* Facebook blue for emphasis */
+    padding: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    /* Indicates it's clickable */
+    text-align: center;
+    margin: 20px auto;
+    max-width: 500px;
+    /* Limits width */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s;
+}
+
+.radio-toggle-label h2 {
+    margin: 0;
+    /* Remove default margin from h2 */
+    display: inline;
+    font-size: 1.5rem;
+}
+
+.radio-toggle-label:hover {
+    background-color: #e4e6eb;
+    /* Lighter hover effect */
+}
+
+/* 3. The Toggle Logic: Hide the content by default */
+.toggleable-content {
+    display: none;
+}
+
+/* 4. Show content when the checkbox is checked */
+/* The General Sibling Combinator (~) is used here */
+#radio-toggle:checked~.toggleable-content {
+    display: block;
+}
+
+
+/* --- Facebook-like Form Styling (.facebook-form) --- */
+.facebook-form {
+    background-color: #fff;
+    /* White background for the form card */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    /* Soft shadow */
+    max-width: 500px;
+    margin: 20px auto 30px auto;
+    /* Center the form */
+    border: 1px solid #ddd;
+    /* Light border */
+    /* Use flexbox to stack and control spacing */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.facebook-form label {
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 2px;
+    font-weight: 600;
+    color: #606770;
+    /* Dark gray text */
+    text-align: left;
+}
+
+.facebook-form input[type="text"],
+.facebook-form input[type="url"],
+.facebook-form input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 5px;
+    border: 1px solid #dddfe2;
+    /* Light border color */
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 16px;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    background-color: #f0f2f5;
+    /* Light background for inputs */
+    color: #333;
+}
+
+.facebook-form input:focus {
+    border-color: #1877f2;
+    /* Focus border in Facebook Blue */
+    box-shadow: 0 0 0 1px #1877f2;
+    outline: none;
+}
+
+.facebook-form button[type="submit"] {
+    background-color: #1877f2;
+    /* Primary Facebook blue */
+    color: white;
+    font-weight: bold;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 15px;
+    font-size: 16px;
+    transition: background-color 0.2s;
+}
+
+.facebook-form button[type="submit"]:hover {
+    background-color: #166fe5;
+    /* Slightly darker blue on hover */
+}
+
+@media (max-width: 768px) {
+
+    /* On mobile, we still want the menu on the right, so keep margin-left: auto on main-nav */
+    .site-header {
+        justify-content: space-between;
+    }
+
+    /* Show the hamburger icon on mobile */
+    .hamburger {
+        display: block;
+    }
+
+    /* Reset the auto margin for the main nav on mobile so it can be controlled by display:none/block */
+    .main-nav {
+        top: 55px;
+        /* Adjust this value to match new header height */
+        /* ... (rest of main-nav mobile styles) ... */
+    }
+
+    /* Transform the navigation into a vertical, full-screen overlay/side menu on mobile */
+    .main-nav {
+        display: none;
+        /* Hide menu by default on mobile */
+        position: fixed;
+        top: 50px;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #444;
+        flex-direction: column;
+        padding: 20px;
+        box-sizing: border-box;
+        overflow-y: auto;
+    }
+
+    /* When the hidden checkbox is checked, display the nav menu */
+    #menu-toggle:checked~.main-nav {
+        display: block;
+    }
+
+    /* Stack menu items vertically */
+    .main-nav ul {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .main-nav ul li a {
+        border-bottom: 1px solid #5d7fb2;
+        /* Lighter separator line */
+    }
+
+    .main-nav ul li a:hover {
+        background: #4e69a2;
+        border-bottom: none;
+        /* Remove underline on mobile view */
+        padding-bottom: 15px;
+        /* Reset padding */
+    }
+
+    /* Adjust dropdown behavior for mobile view (makes it an inline sub-list) */
+    .dropdown-content {
+        background-color: #5d7fb2;
+        position: static;
+        display: block;
+        background-color: #555;
+        box-shadow: none;
+        min-width: unset;
+    }
+
+    .dropdown-content a {
+        padding-left: 40px;
+        /* Indent sub-links */
+    }
+
+    .facebook-form,
+    .radio-toggle-label {
+        max-width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media (max-width: 576px) {
+
+    .facebook-form,
+    .radio-toggle-label {
+        max-width: 95%;
+        margin-left: 5px;
+        margin-right: 5px;
+        padding: 10px;
+    }
+
+    .facebook-form input,
+    .facebook-form button[type="submit"] {
+        padding: 8px;
+        font-size: 14px;
+    }
+}
