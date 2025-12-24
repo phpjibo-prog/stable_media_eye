@@ -6,7 +6,7 @@ from dejavu.logic.recognizer.file_recognizer import FileRecognizer
 
 
 class FingerprintEngine:
-    def __init__(self, db_host="127.0.0.1", db_user="root", db_password="", db_name="media_daily_eye_db", db_port=3306):
+    def __init__(self, db_host= os.environ.get('MYSQLHOST', ''), db_user= os.environ.get('MYSQLUSER', ''), db_password= os.environ.get('MYSQLPASSWORD', ''), db_name= os.environ.get('MYSQLDATABASE', ''), db_port= os.environ.get('MYSQLPORT', 3306)):
         """
         Initialize Dejavu with DB config
         """
@@ -20,7 +20,7 @@ class FingerprintEngine:
             }
         }
 
-        self.djv = None
+        self.djv = Dejavu(self.config)
 
     def fingerprint_folder(self, folder_path, extensions=[".mp3"], workers=3):
         """
@@ -37,14 +37,30 @@ class FingerprintEngine:
         """
         Fingerprint a single audio file
         """
+        print("reched fingerprint file")
         if not os.path.exists(file_path):
             raise FileNotFoundError(f"File not found: {file_path}")
-
+        
+        abs_path = os.path.abspath(file_path)
+        folder = os.path.dirname(abs_path)
+        song_name = os.path.splitext(os.path.basename(file_path))[0]
+        print(song_name)
+        print(f"[FINGERPRINT] Processing: {abs_path}")
+        print(f"[FINGERPRINT] Processing folder: {folder}")
         print(f"[FINGERPRINT] Fingerprinting file: {file_path}")
-        #self.djv.fingerprint_file(file_path)
-        self.djv.fingerprint_directory("uploads", [".mp3"], 3)
+        
+        try:
+            # Try passing song_name explicitly if your version requires it
+            self.djv.fingerprint_directory(folder, [".mp3"], nprocesses=1)
+            print("[FINGERPRINT] Successfully completed on Railway.")
+        except TypeError:
+            # If it still fails with the same error, use the directory method 
+            # pointed at the specific file's folder
+            folder = os.path.dirname(file_path)
+            self.djv.fingerprint_directory(folder, [".mp3"], 1)
+        
         print("[FINGERPRINT] Completed.")
-
+            
     def recognize_file(self, file_path):
         """
         Recognize audio fingerprint in a file

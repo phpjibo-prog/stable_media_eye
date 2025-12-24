@@ -1,6 +1,11 @@
 [phases.setup]
-apt-packages = [
+aptPkgs = [
+  "python3-dev",
+  "gcc",
   "portaudio19-dev",
   "libasound-dev",
-  "ffmpeg"  # Since this was detected as needed
+  "ffmpeg"
 ]
+
+[phases.install]
+cmds = ["pip install -r requirements.txt"]

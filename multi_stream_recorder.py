@@ -18,7 +18,7 @@ class MultiStreamRecorder:
         self.output_folder = output_folder
         self.record_seconds = record_seconds
         self.wait_seconds = wait_seconds
-        self.matcher = None
+        self.matcher = FingerprintMatcher(mysql_config)
 
         self._stop_event = threading.Event()
 
@@ -141,7 +141,7 @@ class MultiStreamRecorder:
 
 
     def _record_single(self, idx, url):
-        matcher = self._get_matcher()
+        #matcher = self._get_matcher()
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         filename = f"radio_{idx}_{timestamp}.mp3"
         path = os.path.join(self.output_folder, filename)
@@ -173,7 +173,7 @@ class MultiStreamRecorder:
                     self.log_audio_played(song_id, url)
                 else:
                     print(f"[Recorder] ❌ No match for stream: {url}")
-                    self.log_audio_played(song_id, url)
+                    #self.log_audio_played(song_id, url)
                 # --------------------------
 
             else:
