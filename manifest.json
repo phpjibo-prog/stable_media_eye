@@ -1,0 +1,35 @@
+let deferredPrompt;
+const installBtn = document.getElementById('installBtn');
+
+// Listen for the browser's install prompt event
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent the default mini-infobar from appearing on mobile
+    e.preventDefault();
+    // Stash the event so it can be triggered later.
+    deferredPrompt = e;
+    // Update UI notify the user they can install the PWA
+    installBtn.classList.remove('hidden');
+});
+
+installBtn.addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    
+    // Show the install prompt
+    deferredPrompt.prompt();
+    
+    // Wait for the user to respond to the prompt
+    const { outcome } = await deferredPrompt.userChoice;
+    console.log(`User response to the install prompt: ${outcome}`);
+    
+    // We've used the prompt, and can't use it again, throw it away
+    deferredPrompt = null;
+    
+    // Hide the button
+    installBtn.classList.add('hidden');
+});
+
+// Hide button if already installed
+window.addEventListener('appinstalled', (evt) => {
+    installBtn.classList.add('hidden');
+    console.log('App was installed.');
+});
